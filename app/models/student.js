@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 
 var StudentSchema = mongoose.Schema({
     uuid: {type: String, required: true},
