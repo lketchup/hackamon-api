@@ -1,4 +1,4 @@
-var Student = require('./app/models/student');
+var Student = require('../models/student');
 
 module.exports = function(app) {
     // Return all Students

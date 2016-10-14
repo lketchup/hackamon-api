@@ -1,4 +1,4 @@
-var Unit = require('./app/models/unit');
+var Unit = require('../models/unit');
 
 module.exports = function(app) {
 

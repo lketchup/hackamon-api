@@ -15,7 +15,10 @@ db.once('open', function() {
 });
 
 // Routes
-require('./routes/students')(app);
+require('./app/routes/students')(app);
+require('./app/routes/classes')(app);
+require('./app/routes/units')(app);
+
 
 
 // Server
