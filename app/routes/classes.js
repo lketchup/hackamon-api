@@ -4,61 +4,54 @@ var Unit = require('../models/unit');
 
 module.exports = function(app) {
 
-    // Return all classes
     app.get('/classes', function(req, res) {
-        Class.find({}, function(err, data) {
-            res.json(data);
-        });
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+        var params = req.query;
+
+        if (params.unit) {
+          Class.find({"unitUuid" : params.unit}, function(err, data) {
+                if (err) {
+                  res.status(401)
+                  return res.json({})
+                } else {
+                  return res.json(data);
+                }
+            });
+        } else {
+          Class.find({}, function(err, data) {
+              return res.json(data);
+        })
+      }
     });
 
     // Return Class with uuid
-    app.get('/classes/find/:uuid', function(req, res) {
+    app.get('/classes/:uuid', function(req, res) {
         var uuid = req.params.uuid;
 
         Class.findOne({"uuid": uuid}, function(err, data) {
+            if (err) {
+              console.log(err);
+              res.status(400);
+              return res.json({});
+            }
             res.json(data);
         })
     });
 
-    // Add a Class
-    app.post('/classes/add', function(req, res) {
-        jsonData = JSON.parse(req.body.result);
-        Class.create(jsonData, function(err, data) {
-            res.json(data);
-        });
-    });
-    
-    // Add dummy data
-    app.post('/classes/add/dummydata', function(req, res) {
-        console.log("~ adding dummy classes");
-        var sampleData = require('../utils/populateDB');
-        var sampleClasses = sampleData.sampleClasses;
-        sampleClasses.forEach( function(classLesson) {
-            Class.create(classLesson, function(err, data) {
-                res.json(data)
-            })
-        })
-    });
-
-    // Remove all class data
-    app.get('/classes/purge/', function(req, res) {
-        Class.remove({}, function (err) {
-            console.log('collection removed')
-        });
-    });
-
-    // requests to enqueue 
+    // requests to enqueue
     app.post('/classes/swap/enqueue', function(req, res) {
         /**
          * we assume can always add a student to a queue, add a student to the queue of a class
-         * can be multiple but all classes are assumed to be for the same unit 
-         * json data has the following 
+         * can be multiple but all classes are assumed to be for the same unit
+         * json data has the following
          * {
          *      studentuuid:,
          *      Array of classUuids,
-         *      unitUuid 
+         *      unitUuid
          * }
-         * 
+         *
          */
         var jsonData = req.body;
         var studentUuid = jsonData.studentUuid;
@@ -80,8 +73,8 @@ module.exports = function(app) {
         });
         console.log("added a total of " + i + " swap requests for student " +  studentUuid);
     });
-    
-    
+
+
 var tryServe  = function () {
     Class.find({}, function(err, data) {
         // data = all classes
@@ -132,8 +125,6 @@ var tryServe  = function () {
                         }
                     })
                 }
-
-
             } else {
                 // console.log("Error at .fifoQueue, error: Queue empty");
             }

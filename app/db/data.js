@@ -1,4 +1,4 @@
-var sampleStudents = [
+var students = [
     {
         uuid: 26029391,
         firstname: "Patrick",
@@ -19,7 +19,7 @@ var sampleStudents = [
     }
 ];
 
-var sampleUnits = [
+var units = [
     {
         uuid: "FIT1010",
         title: "Introduction to Software Engineering",
@@ -37,7 +37,7 @@ var sampleUnits = [
 
 ];
 
-var sampleClasses = [
+var classes = [
     {
         uuid: "01",
         day: "Monday",
@@ -175,6 +175,6 @@ var sampleClasses = [
     }
 ];
 
-exports.sampleStudents = sampleStudents;
-exports.sampleUnits = sampleUnits;
-exports.sampleClasses = sampleClasses;
+exports.students = students;
+exports.units = units;
+exports.classes = classes;
