@@ -140,7 +140,7 @@ module.exports = function(app) {
             if (err) {
                 console.log("two way swap - classA: " + err)
             } else {
-                Student.find({uuid: swapRequestA.studentUuid}, function(err, studentA){
+                Student.find({uuid: swapRequestA.studUuid}, function(err, studentA){
                     if (err) {
                         console.log("two way swap - studentA: " + err)
                     } else {
@@ -148,29 +148,46 @@ module.exports = function(app) {
                             if (err) {
                                 console.log("two way swap - classB: " + err)
                             } else {
-                                Student.find({uuid: swapRequestB.studentUuid}, function(err, studentB) {
+                                Student.find({uuid: swapRequestB.studUuid}, function(err, studentB) {
                                     if (err) {
                                         console.log("two way swap - studentB: " + err)
                                     } else {
+
+                                        console.log("Prev:")             
+                                        console.log("class A: " + classA[0].uuid)
+                                        console.log("class B: " + classB[0].uuid)
+                                        console.log("student A: " + studentA[0].uuid)
+                                        console.log("student B: " + studentB[0].uuid)
+                                        console.log("swap req A: " + swapRequestA.uuid)
+                                        console.log("swap req B:" + swapRequestB.uuid)
+                                        
                                         // 1. remove studentA from classA
                                         classA[0].students.splice( classA[0].students.indexOf(swapRequestA.studUuid), 1);
                                         // 2. add studentA to classB 
                                         classB[0].students.push(swapRequestA.studUuid);
                                         // 3. remove classA from studentA
-                                        studentA[0].classes.splice( studentA[0].splice.indexOf(classUuidA), 1);
+                                        studentA[0].classes.splice( studentA[0].classes.indexOf(classUuidA), 1);
                                         // 4. add new class uuid to student
-                                        studentA[0].classes.push(classB.uuid);
+                                        studentA[0].classes.push(classUuidB);
                                         // 5. remove studentB from classB
-                                        classB[0].students.splice( classB[0].students.indexOf(swapRequestB.studentUuid), 1);
+                                        classB[0].students.splice( classB[0].students.indexOf(swapRequestB.studUuid), 1);
                                         // 6. add studentB to classA
                                         classA[0].students.push(swapRequestB.studUuid);
                                         // 7. remove classB from studentB
-                                        studentB[0].classes.splice( studentB[0].splice.indexOf(classUuidB), 1 );
+                                        studentB[0].classes.splice( studentB[0].classes.indexOf(classUuidB), 1 );
                                         // 8. add classA to studentB
-                                        studentB[0].classes.push(classA.uuid);
+                                        studentB[0].classes.push(classUuidA);
                                         swapRequestA.serviced = true;
                                         swapRequestB.serviced = true;
                                         
+                                        console.log("~ After:")
+                                        console.log("class A: " + classA[0].uuid)
+                                        console.log("class B: " + classB[0].uuid)
+                                        console.log("student A: " + studentA[0].uuid)
+                                        console.log("student B: " + studentB[0].uuid)
+                                        console.log("swap req A: " + swapRequestA.uuid)
+                                        console.log("swap req B:" + swapRequestB.uuid)
+
                                         // update entries in db
                                         Student.update({uuid: studentA[0].uuid}, studentA[0], {upsert: false}, function(err, data){
                                             if (err) {
@@ -216,6 +233,8 @@ module.exports = function(app) {
                                         });
 
                                         console.log("Serviced swap request (two way swap): A:" + swapRequestA.uuid + ", B: " + swapRequestB.uuid);
+                                        
+                                        return [swapRequestA, swapRequestB]
                                     }
                                 })
                             }
@@ -293,6 +312,11 @@ module.exports = function(app) {
     };
 
     var trySwap = function(swapRequest, allSwapRequests) {
+        //console.log("big one: " + allSwapRequests);
+        //console.log("a req: " + allSwapRequests[1]);
+        //console.log("a stu who made req: " + allSwapRequests[1].studUuid);
+
+
         var potentialClasses = swapRequest.requestedClasses;
         potentialClasses.forEach(function(classUuid){               // iterate over all classes the student wants to be swapped into 
             // find requested class from
@@ -314,13 +338,39 @@ module.exports = function(app) {
 
                     for (var i = 0; i < studUuidInClass.length; i++) {                                              // loop through all students in class
                         for (var j = 0; j < allSwapRequests.length; j++) {                                          // loop through all requests
-                            if ( (allSwapRequests[j].studentUuid === studUuidInClass[i])                            // a student in the same class with a swap request
+                            //console.log("iteration i:"+i+", j:"+j);
+                            //console.log("stu who made cur req: " + allSwapRequests[j].studUuid);
+                            //console.log("stu in target class: " + studUuidInClass[i]);
+                            //console.log("stu who make THE req: " + swapRequest.studUuid);
+                            //console.log("hella weird: " + (allSwapRequests[j].studUuid === studUuidInClass[i] ))
+                            if ( (allSwapRequests[j].studUuid === studUuidInClass[i])                            // a student in the same class with a swap request
                                 && (swapRequest.studUuid !== studUuidInClass[i])                                    // who isn't the same as the student who made swapRequest
-                                && ( allSwapRequests[j].requestedClasses.indexOf(requestedClass[0].uuid) >= 0) ) {     // class uuid is in the requestedClasses of the other student
+                                && ("?" !== swapRequest.studUuid)  
+                                && (swapRequest.serviced === false)
+                                && (allSwapRequests[j].serviced === false) ) {
+                                
+                                //&& ( allSwapRequests[j].requestedClasses.indexOf(requestedClass[0].uuid) >= 0) ) {     // class uuid is in the requestedClasses of the other student
+                                // check if in array
+                                    
+                                var found = false;    
+                                for (var k = 0; k < allSwapRequests[j].requestedClasses.length; k++) {
+                                    console.log("all req one: " + allSwapRequests[j].requestedClasses[k])
+                                    console.log("req classs uuid: " + requestedClass[0].uuid)
+                                    if (allSwapRequests[j].requestedClasses[k] === swapRequest.currentClassUuid) {
+                                        found = true;
+                                    }
+                                }
                                 // can swap both into each other's respective classes
                                 //Todo: do swap
-                                twoWaySwap(swapRequest, swapRequest.currentClassUuid, allSwapRequests[j], allSwapRequests[j].currentClassUuid);
-                                return true;
+                                if (found) {
+                                    swapRequest.serviced = true;
+                                    allSwapRequests[j].serviced = true
+                                    twoWaySwap(swapRequest, swapRequest.currentClassUuid, allSwapRequests[j], allSwapRequests[j].currentClassUuid);
+                                    
+
+                                    return true;   
+                                }
+                                
                             }
                         }
                     }
@@ -330,7 +380,7 @@ module.exports = function(app) {
         });
         return false;   // no swap occurred 
     };
-
+    
   
     
     // On event, try swap
