@@ -3,7 +3,7 @@ var students = [
         uuid: "26029391",
         firstname: "Yuan-Fang",
         lastname: "Li",
-        username: "yfali@student.monash.edu",
+        username: "dlei7@student.monash.edu",
         password: "formalist0fSpekz",
         units: ["FIT3013", "FIT3080", "FIT2043", "FIT2070"],
         classes: [
@@ -17,7 +17,7 @@ var students = [
         uuid: "20029392",
         firstname: "JoJo",
         lastname: "Wong",
-        username: "jowon@student.monash.edu",
+        username: "david.anthony.lei@gmail.com",
         password: "yep",
         units: ["FIT2043", "FIT3080", "FIT3088", "FIT3013"],
         classes: [
@@ -31,7 +31,7 @@ var students = [
         uuid: "23079392",
         firstname: "Ingrid",
         lastname: "Zuckerman",
-        username: "igzuck@student.monash.edu",
+        username: "bvdarvid@gmail.com",
         password: "soso",
         units: ["FIT3088", "FIT3080", "FIT2043"],
         classes: [
@@ -44,7 +44,7 @@ var students = [
         uuid: "13074492",
         firstname: "Robyn",
         lastname: "Mac",
-        username: "robmc@student.monash.edu",
+        username: "patrick.leong.shaw@gmail.com",
         password: "MacNCheez",
         units: ["FIT2043", "FIT3080", "FIT3088", "FIT3013"],
         classes: [

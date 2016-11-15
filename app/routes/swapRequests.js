@@ -3,6 +3,7 @@ var Student = require('../models/student');
 var Unit = require('../models/unit');
 var SwapRequest = require('../models/swapRequest');
 var uuid = require('uuid');
+var mailer = 
 
 module.exports = function(app) {
 
@@ -71,21 +72,31 @@ module.exports = function(app) {
             }
         })
     });
+    
+    
 
     app.get('/swaprequest', function(req, res) {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-        SwapRequest.find({}, function(err, data) {
-            if (err){
-                console.log(err);
-                res.status(401);
-                return res.json({})
-            }
-                console.log("swap requests returned")
+
+        var params = req.query;
+        if (params.studUuid) {
+            SwapRequest.find({"studUuid" : params.studUuid}, function(err, data) {
+                if (err) {
+                    res.status(401);
+                    return res.json({})
+                } else {
+                    return res.json(data);
+                }
+            });
+        } else {
+            SwapRequest.find({}, function(err, data) {
                 return res.json(data);
-        })
+            })
+        }
     });
+    
 
     // Enqueue a new swap request
     app.post('/swaprequest/new', function(req, res){
@@ -304,6 +315,7 @@ module.exports = function(app) {
                         });
                         
                         console.log("Serviced swap request (one way swap): " + swapRequest.uuid)
+                        sendSuccessEmail
                     }
                 })
             }
