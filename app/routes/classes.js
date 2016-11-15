@@ -9,7 +9,7 @@ module.exports = function(app) {
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
         var params = req.query;
-
+        // if a unit is passed in, find classes for that unit, else return all classese 
         if (params.unit) {
           Class.find({"unitUuid" : params.unit}, function(err, data) {
                 if (err) {
