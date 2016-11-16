@@ -76,7 +76,7 @@ var units = [
         title: "Technical Documentation",
         code: "FIT2043",
         classes: ["2043-Lec-01", "2043-Lab-01","2070-Lab-01","2043-Lab-02","2043-Lab-03"],
-        required: ["Lecture P1", "Laboratory P2"]
+        required: ["Lecture P1", "Laboratory P1"]
     },
     {
         uuid: "FIT3088",
@@ -90,7 +90,7 @@ var units = [
         title: "Intelligent Systems",
         code: "FIT3080",
         classes: ["3080-Lec-01", "3080-Lab-01", "3080-Lab-02", "3080-Lab-03"],
-        required: ["Lecture P1", "Laboratory P2"]
+        required: ["Lecture P1"]
     }
 
 ];
