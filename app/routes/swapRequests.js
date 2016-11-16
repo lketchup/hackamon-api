@@ -3,7 +3,7 @@ var Student = require('../models/student');
 var Unit = require('../models/unit');
 var SwapRequest = require('../models/swapRequest');
 var uuid = require('uuid');
-var mailer = 
+var mailer = require('../utils/mailer');
 
 module.exports = function(app) {
 
@@ -314,7 +314,9 @@ module.exports = function(app) {
                             }
                         });
                         
-                        console.log("Serviced swap request (one way swap): " + swapRequest.uuid)
+                        console.log("Serviced swap request (one way swap): " + swapRequest.uuid);
+                        // send email
+                        mailer.sendSuccessEmail(student, oldClass[0], requestedClass)
                         
                     }
                 })

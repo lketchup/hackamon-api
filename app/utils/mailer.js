@@ -20,14 +20,15 @@ exports.sendSuccessEmail = function sendEmail(recipientEmail, swappedIntoClass, 
                 '<th>Allocation</th>'+'<th>Unit Code</th>' + '<th>Class Type</th>' + '<th>Day</th>'  + '<th>Time</th>' + '<th>Location</th>' + '<th>Duration (hours)</th>' + '<th>Campus</th>' +
             '</tr>' +
             '<tr>' +
-                '<td>Old</td>'+'<td>'+swappedIntoClass.uuid+'</td>' + '<th>'+swappedIntoClass.type+'</th>' + '<th>'+swappedIntoClass.day+'</th>' + '<th>'+swappedIntoClass.time+'</th>' + '<th>Location</th>' + '<th>Duration (hours)</th>' + '<th>Campus</th>' +
+                '<td>Old</td>'+'<td>'+swappedOutClass.uuid+'</td>' + '<th>'+swappedOutClass.type+'</th>' + '<th>'+swappedOutClass.day+'</th>' + '<th>'+swappedOutClass.time+'</th>' + '<th>'+swappedOutClass.location+'</th>' + '<th>'+swappedOutClass.duration+'</th>' + '<th>'+swappedOutClass.campus+'</th>' +
+            '</tr>' +
+            '<tr>' +
+                '<td>New</td>'+'<td>'+swappedIntoClass.uuid+'</td>' + '<th>'+swappedIntoClass.type+'</th>' + '<th>'+swappedIntoClass.day+'</th>' + '<th>'+swappedIntoClass.time+'</th>' + '<th>'+swappedIntoClass.location+'</th>' + '<th>'+swappedIntoClass.duration+'</th>' + '<th>'+swappedIntoClass.campus+'</th>' +
             '</tr>' +
         '</table>'
 
         + swappedIntoClass.unitCode + ' ' + swappedIntoClass.type + ' at ' + swappedIntoClass.time + ' ' + swappedIntoClass.location + '</p>'
-
-        //html:
-
+        
 
     };
 
