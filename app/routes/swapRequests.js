@@ -149,7 +149,7 @@ module.exports = function(app) {
                         //console.log(res)
                         console.log("BODEH: " + body)
                         res.status(200);
-                        return res.json(body)
+                        return res.json(data)
                     }
                 });
 
