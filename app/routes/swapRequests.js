@@ -102,6 +102,8 @@ module.exports = function(app) {
 
     // Enqueue a new swap request
     app.post('/swaprequest/new', function(req, res){
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         console.log("NEW SWAP REQ");
         var jsonData = req.query;
         console.log("Json Body: " + jsonData);
