@@ -1,6 +1,7 @@
 var nodemailer = require('nodemailer');
 
-exports.sendSuccessEmail = function sendEmail(recipientEmail, swappedIntoClass, swappedOutClass) {
+exports.sendSuccessEmail = function sendEmail(student, swappedIntoClass, swappedOutClass) {
+    var recipientEmail = student.username;
     var authData = require('./mailer_config.json');
     var transporter = nodemailer.createTransport(
         {service: 'Gmail', auth: {user: authData.username, pass: authData.password}}
@@ -14,21 +15,20 @@ exports.sendSuccessEmail = function sendEmail(recipientEmail, swappedIntoClass, 
         ' ' + swappedIntoClass.type + ' at ' + swappedIntoClass.time +
         ', ' + swappedIntoClass.location,
         html: '<h1 style="color:#6495ed"> ReAllocate+ </h1>' +
-        '<p>has swapped you in!</p>' +
-        '<table>' +
-            '<tr>' +
-                '<th>Allocation</th>'+'<th>Unit Code</th>' + '<th>Class Type</th>' + '<th>Day</th>'  + '<th>Time</th>' + '<th>Location</th>' + '<th>Duration (hours)</th>' + '<th>Campus</th>' +
+        '<p>'+ student.firstname +' ' + student.lastname +', ReAllocate+ has swapped you in to' + swappedIntoClass.uuid + '</p>' +
+        '<table border="1">' +
+            '<tr >' +
+                '<th style="padding:5px" > Allocation</th>'+'<th style="padding:5px">Unit Code</th>' + '<th style="padding:5px">Class Type</th>' + '<th style="padding:5px">Day</th>'  + '<th style="padding:5px">Time</th>' + '<th style="padding:5px">Location</th>' + '<th style="padding:5px">Duration (hours)</th>' + '<th style="padding:5px">Campus</th>' +
             '</tr>' +
-            '<tr>' +
-                '<td>Old</td>'+'<td>'+swappedOutClass.uuid+'</td>' + '<th>'+swappedOutClass.type+'</th>' + '<th>'+swappedOutClass.day+'</th>' + '<th>'+swappedOutClass.time+'</th>' + '<th>'+swappedOutClass.location+'</th>' + '<th>'+swappedOutClass.duration+'</th>' + '<th>'+swappedOutClass.campus+'</th>' +
+            '<tr style="text-align:center" >' +
+                '<td style="padding:5px;" >Old</td>'+'<td style="padding:5px;" >'+swappedOutClass.uuid+'</td>' + '<td style="padding:5px;">'+swappedOutClass.type+'</td>' + '<td style="padding:5px;" >'+swappedOutClass.day+'</td>' + '<td style="padding:5px;">'+swappedOutClass.time+'</td>' + '<td style="padding:5px;">'+swappedOutClass.location+'</td>' + '<td style="padding:5px;">'+swappedOutClass.duration+'</td>' + '<td style="padding:5px;">'+swappedOutClass.campus+'</td>' +
             '</tr>' +
-            '<tr>' +
-                '<td>New</td>'+'<td>'+swappedIntoClass.uuid+'</td>' + '<th>'+swappedIntoClass.type+'</th>' + '<th>'+swappedIntoClass.day+'</th>' + '<th>'+swappedIntoClass.time+'</th>' + '<th>'+swappedIntoClass.location+'</th>' + '<th>'+swappedIntoClass.duration+'</th>' + '<th>'+swappedIntoClass.campus+'</th>' +
+            '<tr style="text-align:center" >' +
+                '<td style="padding:5px;">New</td>'+'<td style="padding:5px;">'+swappedIntoClass.uuid+'</td>' + '<td style="padding:5px;">'+swappedIntoClass.type+'</td>' + '<td style="padding:5px;">'+swappedIntoClass.day+'</td>' + '<td style="padding:5px;">'+swappedIntoClass.time+'</td>' + '<td style="padding:5px;">'+swappedIntoClass.location+'</td>' + '<td style="padding:5px;">'+swappedIntoClass.duration+'</td>' + '<td style="padding:5px;">'+swappedIntoClass.campus+'</td>' +
             '</tr>' +
         '</table>'
 
-        + swappedIntoClass.unitCode + ' ' + swappedIntoClass.type + ' at ' + swappedIntoClass.time + ' ' + swappedIntoClass.location + '</p>'
-        
+
 
     };
 

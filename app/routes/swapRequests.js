@@ -244,7 +244,9 @@ module.exports = function(app) {
                                         });
 
                                         console.log("Serviced swap request (two way swap): A:" + swapRequestA.uuid + ", B: " + swapRequestB.uuid);
-                                        
+                                        mailer.sendSuccessEmail(studentA[0], classA[0], classB[0]);
+                                        mailer.sendSuccessEmail(studentB[0], classB[0], classB[0]);
+
                                         return [swapRequestA, swapRequestB]
                                     }
                                 })
@@ -316,7 +318,7 @@ module.exports = function(app) {
                         
                         console.log("Serviced swap request (one way swap): " + swapRequest.uuid);
                         // send email
-                        mailer.sendSuccessEmail(student, oldClass[0], requestedClass)
+                        mailer.sendSuccessEmail(student[0], oldClass[0], requestedClass)
                         
                     }
                 })
