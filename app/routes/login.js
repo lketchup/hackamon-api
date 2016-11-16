@@ -6,7 +6,7 @@ module.exports = function(app) {
     app.get('/login', function(req, res) {
         var username = req.params.user;
         var password = req.params.pass
-        Student.findOne({"username": user, "password": pass}, function(err, data) {
+        Student.findOne({"username": username, "password": password}, function(err, data) {
             if (err) {
               res.status(400);
               return res.json({});
