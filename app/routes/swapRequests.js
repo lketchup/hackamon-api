@@ -3,7 +3,7 @@ var Student = require('../models/student');
 var Unit = require('../models/unit');
 var SwapRequest = require('../models/swapRequest');
 var uuid = require('uuid');
-var mailer = 
+var mailer =
 
 module.exports = function(app) {
 
@@ -12,7 +12,7 @@ module.exports = function(app) {
         Student.update(
             {firstname: "JoJo"},
             {firstname: "NoJoJo"},
-            {upsert: false}, 
+            {upsert: false},
         function(err, data){
             if (err) {
                 console.log(err)
@@ -21,13 +21,13 @@ module.exports = function(app) {
             }
         })
     });
-    
-    app.post('/testFullUpdate', function(req, res){             
+
+    app.post('/testFullUpdate', function(req, res){
         console.log("/testFullUpdate") ;
         Student.find({firstname: "Robyn"}, function(err, data){
             if (err){
                 console.log(err)
-            } else {                                // can overwrite and update like this 
+            } else {                                // can overwrite and update like this
                 data[0].firstname = "Robin";
                 data[0].lastname = "Batman";
                 Student.update({firstname: "Robyn"}, data[0], {upsert: false}, function(err, data){
@@ -72,8 +72,8 @@ module.exports = function(app) {
             }
         })
     });
-    
-    
+
+
 
     app.get('/swaprequest', function(req, res) {
         res.header("Access-Control-Allow-Origin", "*");
@@ -96,18 +96,20 @@ module.exports = function(app) {
             })
         }
     });
-    
+
 
     // Enqueue a new swap request
     app.post('/swaprequest/new', function(req, res){
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         var jsonData = req.body;
         var studentUuid = jsonData.studentUuid;            // need
         var unitUuid = jsonData.unitUuid;                   // need
-        var requestedClasses = jsonData.requestedClasses;  // need 
+        var requestedClasses = jsonData.requestedClasses;  // need
         var timestamp = Date.now();
         var date = Date(Date.now()).toLocaleString();
         var reqUuid = uuid.v4();                           // random uuid
-        
+
         var swapRequest = {
             uuid: reqUuid,
             timestamp: timestamp,
@@ -117,9 +119,9 @@ module.exports = function(app) {
             date: date,
             serviced: false
         };
-        
+
         console.log(swapRequest);
-        // Add the new swap request to MongoDb 
+        // Add the new swap request to MongoDb
         SwapRequest.create(swapRequest, function(err, data) {
             if (err) {
                 console.log("Problem adding SwapRequest: "  + err);
@@ -129,8 +131,8 @@ module.exports = function(app) {
             }
         });
     });
-    
-   
+
+
     var twoWaySwap = function(swapRequestA, classUuidA, swapRequestB, classUuidB){
         /**
          * Swapping two students into each other's respective classes consists of:
@@ -164,17 +166,17 @@ module.exports = function(app) {
                                         console.log("two way swap - studentB: " + err)
                                     } else {
 
-                                        console.log("Prev:")             
+                                        console.log("Prev:")
                                         console.log("class A: " + classA[0].uuid)
                                         console.log("class B: " + classB[0].uuid)
                                         console.log("student A: " + studentA[0].uuid)
                                         console.log("student B: " + studentB[0].uuid)
                                         console.log("swap req A: " + swapRequestA.uuid)
                                         console.log("swap req B:" + swapRequestB.uuid)
-                                        
+
                                         // 1. remove studentA from classA
                                         classA[0].students.splice( classA[0].students.indexOf(swapRequestA.studUuid), 1);
-                                        // 2. add studentA to classB 
+                                        // 2. add studentA to classB
                                         classB[0].students.push(swapRequestA.studUuid);
                                         // 3. remove classA from studentA
                                         studentA[0].classes.splice( studentA[0].classes.indexOf(classUuidA), 1);
@@ -190,7 +192,7 @@ module.exports = function(app) {
                                         studentB[0].classes.push(classUuidA);
                                         swapRequestA.serviced = true;
                                         swapRequestB.serviced = true;
-                                        
+
                                         console.log("~ After:")
                                         console.log("class A: " + classA[0].uuid)
                                         console.log("class B: " + classB[0].uuid)
@@ -244,7 +246,7 @@ module.exports = function(app) {
                                         });
 
                                         console.log("Serviced swap request (two way swap): A:" + swapRequestA.uuid + ", B: " + swapRequestB.uuid);
-                                        
+
                                         return [swapRequestA, swapRequestB]
                                     }
                                 })
@@ -313,9 +315,9 @@ module.exports = function(app) {
                                 console.log(data)
                             }
                         });
-                        
+
                         console.log("Serviced swap request (one way swap): " + swapRequest.uuid)
-                        
+
                     }
                 })
             }
@@ -330,7 +332,7 @@ module.exports = function(app) {
 
 
         var potentialClasses = swapRequest.requestedClasses;
-        potentialClasses.forEach(function(classUuid){               // iterate over all classes the student wants to be swapped into 
+        potentialClasses.forEach(function(classUuid){               // iterate over all classes the student wants to be swapped into
             // find requested class from
             Class.find({uuid: classUuid}, function(err, requestedClass){
                 // next itertion - use swappable
@@ -338,7 +340,7 @@ module.exports = function(app) {
                 //console.log("cap: " + (+requestedClass[0].capacity ));
                 //console.log("no: " + ((+requestedClass[0].noStudents) + 1));
                 if ( (+requestedClass[0].capacity) >= ((+requestedClass[0].noStudents) + 1) ) {
-                    
+
                     // case 1: can swap right away
                     //Todo: do swap
                     oneWaySwap(swapRequest, requestedClass[0]);
@@ -357,14 +359,14 @@ module.exports = function(app) {
                             //console.log("hella weird: " + (allSwapRequests[j].studUuid === studUuidInClass[i] ))
                             if ( (allSwapRequests[j].studUuid === studUuidInClass[i])                            // a student in the same class with a swap request
                                 && (swapRequest.studUuid !== studUuidInClass[i])                                    // who isn't the same as the student who made swapRequest
-                                && ("?" !== swapRequest.studUuid)  
+                                && ("?" !== swapRequest.studUuid)
                                 && (swapRequest.serviced === false)
                                 && (allSwapRequests[j].serviced === false) ) {
-                                
+
                                 //&& ( allSwapRequests[j].requestedClasses.indexOf(requestedClass[0].uuid) >= 0) ) {     // class uuid is in the requestedClasses of the other student
                                 // check if in array
-                                    
-                                var found = false;    
+
+                                var found = false;
                                 for (var k = 0; k < allSwapRequests[j].requestedClasses.length; k++) {
                                     console.log("all req one: " + allSwapRequests[j].requestedClasses[k])
                                     console.log("req classs uuid: " + requestedClass[0].uuid)
@@ -378,23 +380,23 @@ module.exports = function(app) {
                                     swapRequest.serviced = true;
                                     allSwapRequests[j].serviced = true
                                     twoWaySwap(swapRequest, swapRequest.currentClassUuid, allSwapRequests[j], allSwapRequests[j].currentClassUuid);
-                                    
 
-                                    return true;   
+
+                                    return true;
                                 }
-                                
+
                             }
                         }
                     }
                 }
-            });     
-           
+            });
+
         });
-        return false;   // no swap occurred 
+        return false;   // no swap occurred
     };
-    
-  
-    
+
+
+
     // On event, try swap
     app.post('/swaprequest/trigger', function(req, res) {
        SwapRequest.find({}, function(err, swapRequestArray){
@@ -420,5 +422,5 @@ module.exports = function(app) {
 
 
     });
-    
+
 };
