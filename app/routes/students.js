@@ -3,10 +3,9 @@ var Student = require('../models/student');
 module.exports = function(app) {
     // Return all Students
     app.get('/students', function(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         Student.find({}, function(err, data) {
-
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             if (err) {
               console.log(err);
               res.status(400);
