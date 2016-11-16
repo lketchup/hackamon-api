@@ -62,35 +62,35 @@ var units = [
         title: "Formal Specification",
         code: "FIT3013",
         classes: ["3013-Lec-01", "3013-Tute-01", "3013-Tute-02"],
-        required: ["Lecture", "Tutorial"]
+        required: ["Lecture P1", "Tutorial P1"]
     },
     {
         uuid: "FIT2070",
         title: "Operating Systems",
         code: "FIT2070",
         classes: ["2070-Lec-01", "2070-Lec-02","2070-Lab-01","2070-Lab-02","2070-Lab-03"],
-        required: ["Lecture 1", "Lecture 2", "Laboratory"]
+        required: ["Lecture P1", "Lecture P2", "Laboratory P1"]
     },
     {
         uuid: "FIT2043",
         title: "Technical Documentation",
         code: "FIT2043",
         classes: ["2043-Lec-01", "2043-Lab-01","2070-Lab-01","2043-Lab-02","2043-Lab-03"],
-        required: ["Lecture", "Laboratory"]
+        required: ["Lecture P1", "Laboratory P2"]
     },
     {
         uuid: "FIT3088",
         title: "Computer Graphics",
         code: "FIT3088",
         classes: ["3088-Lec-01", "3088-Lab-01", "3088-Lab-02"],
-        required: ["Lecture", "Laboratory"]
+        required: ["Lecture P1", "Laboratory P1"]
     },
     {
         uuid: "FIT3080",
         title: "Intelligent Systems",
         code: "FIT3080",
         classes: ["3080-Lec-01", "3080-Lab-01", "3080-Lab-02", "3080-Lab-03"],
-        required: ["Lecture", "Laboratory"]
+        required: ["Lecture P1", "Laboratory P2"]
     }
 
 ];
@@ -122,7 +122,7 @@ var classes = [
         campus:"Clayton",
         staff:"Lito Cruz",
         location: "CL_14Rnf/G11B",
-        type: "Tute P1",
+        type: "Tutorial P1",
         unitUuid: "FIT3013",
         capacity: 20,
         noStudents: 10,
@@ -139,7 +139,7 @@ var classes = [
         campus:"Clayton",
         staff:"Lito Cruz",
         location: "CL_14Rnf/G11B",
-        type: "Tute P1",
+        type: "Tutorial P1",
         unitUuid: "FIT3013",
         capacity: 20,
         noStudents: 10,
@@ -189,7 +189,7 @@ var classes = [
         campus:"Clayton",
         staff:"Daniel Kos",
         location: "CL_23Col/G46",
-        type: "Lab P1",
+        type: "Laboratory P1",
         unitUuid: "FIT2070",
         capacity: 20,
         noStudents: 20,
@@ -205,13 +205,13 @@ var classes = [
         campus:"Clayton",
         staff:"Daniel Kos",
         location: "CL_23Col/G46",
-        type: "Lab P1",
+        type: "Laboratory P1",
         unitUuid: "FIT2070",
         capacity: 20,
         noStudents: 20,
         swappable: true,
         fifoQueue: [],
-        students: ["?", ]
+        students: ["?"]
     },
     {
         uuid: "2070-Lab-03",
@@ -221,13 +221,13 @@ var classes = [
         campus:"Clayton",
         staff:"Thalerngsak Kijthaweesinpoon",
         location: "CL_23Col/G45",
-        type: "Lab P1",
+        type: "Laboratory P1",
         unitUuid: "FIT2070",
         capacity: 20,
         noStudents: 20,
         swappable: true,
         fifoQueue: [],
-        students: ["?", ]
+        students: ["?"]
     },
     // FIT2043 Lectures
     {
@@ -255,7 +255,7 @@ var classes = [
         campus:"Clayton",
         staff:"Ian Albon",
         location: "CL_23Col/G45",
-        type: "Lab P1",
+        type: "Laboratory P1",
         unitUuid: "FIT2043",
         capacity: 15,
         noStudents: 10,
@@ -271,7 +271,7 @@ var classes = [
         campus:"Clayton",
         staff:"Deborah Pickett",
         location: "CL_16Rnf/S10",
-        type: "Lab P1",
+        type: "Laboratory P1",
         unitUuid: "FIT2043",
         capacity: 15,
         noStudents: 15,
@@ -287,7 +287,7 @@ var classes = [
         campus:"Clayton",
         staff:"Ian Albon",
         location: "CL_16Rnf/S09",
-        type: "Lab P1",
+        type: "Laboratory P1",
         unitUuid: "FIT2043",
         capacity: 15,
         noStudents: 10,
@@ -321,7 +321,7 @@ var classes = [
         campus:"Clayton",
         staff:"David Lei",
         location: "CL_14Rnf/G11A",
-        type: "Lab P1",
+        type: "Laboratory P1",
         unitUuid: "FIT3080",
         capacity: 15,
         noStudents: 15,
@@ -337,7 +337,7 @@ var classes = [
         campus:"Clayton",
         staff:"David Lei",
         location: "CL_14Rnf/G11B",
-        type: "Lab P1",
+        type: "Laboratory P1",
         unitUuid: "FIT3080",
         capacity: 20,
         noStudents: 20,
@@ -353,7 +353,7 @@ var classes = [
         campus:"Clayton",
         staff:"Robert Robertson",
         location: "CL_14Rnf/G12",
-        type: "Lab P1",
+        type: "Laboratory P1",
         unitUuid: "FIT3080",
         capacity: 15,
         noStudents: 15,
@@ -387,7 +387,7 @@ var classes = [
         campus:"Clayton",
         staff:"Eric Cartman",
         location: "CL_16Rnf/S9",
-        type: "Lab P1",
+        type: "Laboratory P1",
         unitUuid: "FIT3088",
         capacity: 25,
         noStudents: 20,
@@ -403,7 +403,7 @@ var classes = [
         campus:"Clayton",
         staff:"Liam Ketchup",
         location: "CL_16Rnf/S9",
-        type: "Lab P1",
+        type: "Laboratory P1",
         unitUuid: "FIT3088",
         capacity: 25,
         noStudents: 20,

@@ -20,8 +20,8 @@ exports.sendSuccessEmail = function sendEmail(recipientEmail, swappedIntoClass, 
                 '<th>Allocation</th>'+'<th>Unit Code</th>' + '<th>Class Type</th>' + '<th>Day</th>'  + '<th>Time</th>' + '<th>Location</th>' + '<th>Duration (hours)</th>' + '<th>Campus</th>' +
             '</tr>' +
             '<tr>' +
-                '<td>Old</td>'+'<td>'+swappedIntoClass.uuid+'</td>' + '<th>Class Type</th>' + '<th>Day</th>'  + '<th>Time</th>' + '<th>Location</th>' + '<th>Duration (hours)</th>' + '<th>Campus</th>' +
-        '</tr>' +
+                '<td>Old</td>'+'<td>'+swappedIntoClass.uuid+'</td>' + '<th>'+swappedIntoClass.type+'</th>' + '<th>'+swappedIntoClass.day+'</th>' + '<th>'+swappedIntoClass.time+'</th>' + '<th>Location</th>' + '<th>Duration (hours)</th>' + '<th>Campus</th>' +
+            '</tr>' +
         '</table>'
 
         + swappedIntoClass.unitCode + ' ' + swappedIntoClass.type + ' at ' + swappedIntoClass.time + ' ' + swappedIntoClass.location + '</p>'
