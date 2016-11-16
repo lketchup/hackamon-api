@@ -4,8 +4,8 @@ module.exports = function(app) {
 
     // Return Student with uuid
     app.get('/students/:uuid', function(req, res) {
-        var user = req.params.user;
-        var pass = req.params.pass
+        var username = req.params.user;
+        var password = req.params.pass
         Student.findOne({"username": user, "password": pass}, function(err, data) {
             if (err) {
               res.status(400);
