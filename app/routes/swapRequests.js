@@ -101,9 +101,9 @@ module.exports = function(app) {
     // Enqueue a new swap request
     app.post('/swaprequest/new', function(req, res){
         var jsonData = req.body;
-        var studentUuid = jsonData.studentUuid;
-        var unitUuid = jsonData.unitUuid;
-        var requestedClasses = jsonData.requestedClasses;
+        var studentUuid = jsonData.studentUuid;            // need
+        var unitUuid = jsonData.unitUuid;                   // need
+        var requestedClasses = jsonData.requestedClasses;  // need 
         var timestamp = Date.now();
         var date = Date(Date.now()).toLocaleString();
         var reqUuid = uuid.v4();                           // random uuid
@@ -315,7 +315,7 @@ module.exports = function(app) {
                         });
                         
                         console.log("Serviced swap request (one way swap): " + swapRequest.uuid)
-                        sendSuccessEmail
+                        
                     }
                 })
             }

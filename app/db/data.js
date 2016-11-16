@@ -143,7 +143,7 @@ var classes = [
         unitUuid: "FIT3013",
         capacity: 20,
         noStudents: 10,
-        swappable: false,
+        swappable: true,
         fifoQueue: [],
         students: ["?", "13074492", "20029392"]
     },
@@ -193,7 +193,7 @@ var classes = [
         unitUuid: "FIT2070",
         capacity: 20,
         noStudents: 20,
-        swappable: false,
+        swappable: true,
         fifoQueue: [],
         students: ["?", "26029391"]
     },
@@ -209,7 +209,7 @@ var classes = [
         unitUuid: "FIT2070",
         capacity: 20,
         noStudents: 20,
-        swappable: false,
+        swappable: true,
         fifoQueue: [],
         students: ["?", ]
     },
@@ -225,7 +225,7 @@ var classes = [
         unitUuid: "FIT2070",
         capacity: 20,
         noStudents: 20,
-        swappable: false,
+        swappable: true,
         fifoQueue: [],
         students: ["?", ]
     },
@@ -259,7 +259,7 @@ var classes = [
         unitUuid: "FIT2043",
         capacity: 15,
         noStudents: 10,
-        swappable: false,
+        swappable: true,
         fifoQueue: [],
         students: ["?", "26029391"]
     },
@@ -275,7 +275,7 @@ var classes = [
         unitUuid: "FIT2043",
         capacity: 15,
         noStudents: 15,
-        swappable: false,
+        swappable: true,
         fifoQueue: [],
         students: ["?", "20029392", "23079392"]
     },
@@ -291,7 +291,7 @@ var classes = [
         unitUuid: "FIT2043",
         capacity: 15,
         noStudents: 10,
-        swappable: false,
+        swappable: true,
         fifoQueue: [],
         students: ["?", "13074492"]
     },
@@ -325,7 +325,7 @@ var classes = [
         unitUuid: "FIT3080",
         capacity: 15,
         noStudents: 15,
-        swappable: false,
+        swappable: true,
         fifoQueue: [],
         students: ["?", "26029391"]
     },
@@ -341,7 +341,7 @@ var classes = [
         unitUuid: "FIT3080",
         capacity: 20,
         noStudents: 20,
-        swappable: false,
+        swappable: true,
         fifoQueue: [],
         students: ["?", "20029392", "13074492"]
     },
@@ -357,7 +357,7 @@ var classes = [
         unitUuid: "FIT3080",
         capacity: 15,
         noStudents: 15,
-        swappable: false,
+        swappable: true,
         fifoQueue: [],
         students: ["?", "23079392"]
     },
@@ -391,7 +391,7 @@ var classes = [
         unitUuid: "FIT3088",
         capacity: 25,
         noStudents: 20,
-        swappable: false,
+        swappable: true,
         fifoQueue: [],
         students: ["?", "23079392", "13074492"]
     },
@@ -407,7 +407,7 @@ var classes = [
         unitUuid: "FIT3088",
         capacity: 25,
         noStudents: 20,
-        swappable: false,
+        swappable: true,
         fifoQueue: [],
         students: ["?", "20029392"]
     }

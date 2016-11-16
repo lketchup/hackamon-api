@@ -1,6 +1,6 @@
 var nodemailer = require('nodemailer');
 
-exports.sendSuccessEmail = function sendEmail(recipientEmail, swappedIntoClass) {
+exports.sendSuccessEmail = function sendEmail(recipientEmail, swappedIntoClass, swappedOutClass) {
     var authData = require('./mailer_config.json');
     var transporter = nodemailer.createTransport(
         {service: 'Gmail', auth: {user: authData.username, pass: authData.password}}
@@ -14,7 +14,17 @@ exports.sendSuccessEmail = function sendEmail(recipientEmail, swappedIntoClass) 
         ' ' + swappedIntoClass.type + ' at ' + swappedIntoClass.time +
         ', ' + swappedIntoClass.location,
         html: '<h1 style="color:#6495ed"> ReAllocate+ </h1>' +
-        '<p>has swapped you into ' + swappedIntoClass.unitCode + ' ' + swappedIntoClass.type + ' at ' + swappedIntoClass.time + ' ' + swappedIntoClass.location + '</p>'
+        '<p>has swapped you in!</p>' +
+        '<table>' +
+            '<tr>' +
+                '<th>Allocation</th>'+'<th>Unit Code</th>' + '<th>Class Type</th>' + '<th>Day</th>'  + '<th>Time</th>' + '<th>Location</th>' + '<th>Duration (hours)</th>' + '<th>Campus</th>' +
+            '</tr>' +
+            '<tr>' +
+                '<td>Old</td>'+'<td>'+swappedIntoClass.uuid+'</td>' + '<th>Class Type</th>' + '<th>Day</th>'  + '<th>Time</th>' + '<th>Location</th>' + '<th>Duration (hours)</th>' + '<th>Campus</th>' +
+        '</tr>' +
+        '</table>'
+
+        + swappedIntoClass.unitCode + ' ' + swappedIntoClass.type + ' at ' + swappedIntoClass.time + ' ' + swappedIntoClass.location + '</p>'
 
         //html:
 
