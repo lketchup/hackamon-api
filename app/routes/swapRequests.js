@@ -4,6 +4,7 @@ var Unit = require('../models/unit');
 var SwapRequest = require('../models/swapRequest');
 var uuid = require('uuid');
 var mailer = require('../utils/mailer');
+var request = require('request');
 
 module.exports = function(app) {
 
@@ -100,19 +101,26 @@ module.exports = function(app) {
 
     // Enqueue a new swap request
     app.post('/swaprequest/new', function(req, res){
-        var jsonData = req.body;
+        console.log("NEW SWAP REQ");
+        var jsonData = req.query;
+        console.log("Json Body: " + jsonData);
+        console.log("Json Body stu: " + jsonData.studentUuid);
+
         var studentUuid = jsonData.studentUuid;            // need
         var unitUuid = jsonData.unitUuid;                   // need
-        var requestedClasses = jsonData.requestedClasses;  // need 
+        var requestedClasses = [jsonData.requestedClasses];  // need 
+        console.log("Request Classes: " + requestedClasses)
         var timestamp = Date.now();
         var date = Date(Date.now()).toLocaleString();
         var reqUuid = uuid.v4();                           // random uuid
+        var currentClass = jsonData.currentClassUuid;
         
         var swapRequest = {
             uuid: reqUuid,
             timestamp: timestamp,
             studUuid: studentUuid,
             unitUuid: unitUuid,
+            currentClassUuid: currentClass,
             requestedClasses: requestedClasses,
             date: date,
             serviced: false
@@ -124,13 +132,27 @@ module.exports = function(app) {
             if (err) {
                 console.log("Problem adding SwapRequest: "  + err);
             } else {
-                console.log("Added request: " + data);
-                // res.json(data)
+                console.log("Added request"); // + data);
+                // trigger swaps
+                var url = "http://localhost:3000/swaprequest/trigger";
+                request.post(url, {}, function(err, result, body){
+                    if (err) {
+                        console.log(err);
+                        res.status(401);
+                        return res.json({})
+                    } else {
+                        console.log("END HERE");
+                        //console.log(res)
+                        console.log("BODEH: " + body)
+                        res.status(200);
+                        return res.json(body)
+                    }
+                });
+
             }
         });
     });
-    
-   
+
     var twoWaySwap = function(swapRequestA, classUuidA, swapRequestB, classUuidB){
         /**
          * Swapping two students into each other's respective classes consists of:
@@ -334,13 +356,25 @@ module.exports = function(app) {
 
 
         var potentialClasses = swapRequest.requestedClasses;
-        potentialClasses.forEach(function(classUuid){               // iterate over all classes the student wants to be swapped into 
+        potentialClasses.forEach(function(classUuid){               // iterate over all classes the student wants to be swapped into
+            console.log("try swap");
+            console.log("instance array: " + (classUuid instanceof Array))
+            console.log("instance checked: " + classUuid)
+            
+
+            if (classUuid instanceof Array) {
+                console.log("instance array")
+                console.log(classUuid)
+                classUuid = classUuid[0]
+                console.log(classUuid)
+            }
             // find requested class from
             Class.find({uuid: classUuid}, function(err, requestedClass){
                 // next itertion - use swappable
                 //console.log("class: " + requestedClass.uuid);
                 //console.log("cap: " + (+requestedClass[0].capacity ));
                 //console.log("no: " + ((+requestedClass[0].noStudents) + 1));
+                console.log("???: " + classUuid)
                 if ( (+requestedClass[0].capacity) >= ((+requestedClass[0].noStudents) + 1) ) {
                     
                     // case 1: can swap right away
@@ -398,14 +432,16 @@ module.exports = function(app) {
     };
     
   
-    
+
     // On event, try swap
     app.post('/swaprequest/trigger', function(req, res) {
+       console.log("triggered called");
        SwapRequest.find({}, function(err, swapRequestArray){
            if (err){
                console.log(err);
                return {};
            } else {
+               
                // logic over data (array of requests) here
                swapRequestArray.forEach(function(swapRequest){  // loop over all requests
                    if (swapRequest.serviced === false) {
@@ -421,7 +457,6 @@ module.exports = function(app) {
                return res.json(swapRequestArray);
            }
        }).sort({timestamp: 1})
-
 
     });
     

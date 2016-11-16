@@ -463,7 +463,8 @@ var swapRequests = [
         requestedClasses: ["3080-Lab-03"],
         date: "Wed 16 Nov 2016",
         serviced: false
-    },
+    }
+    /* create this
     {
         uuid: "sr-data6",
         timestamp: 0,
@@ -474,6 +475,7 @@ var swapRequests = [
         date: "Wed 16 Nov 2016",
         serviced: false
     }
+    */
     
     
     
