@@ -113,7 +113,7 @@ module.exports = function(app) {
         var studentUuid = jsonData.studentUuid;            // need
         var unitUuid = jsonData.unitUuid;                   // need
         var requestedClasses = [jsonData.requestedClasses];  // need 
-        console.log("Request Classes: " + requestedClasses)
+        console.log("Request Classes: " + requestedClasses);
         var timestamp = Date.now();
         var date = Date(Date.now()).toLocaleString();
         var reqUuid = uuid.v4();                           // random uuid
@@ -140,7 +140,7 @@ module.exports = function(app) {
             } else {
                 console.log("Added request"); // + data);
                 // trigger swaps
-                var url = "http://localhost:3000/swaprequest/trigger";
+                var url = "https://reallocateplus.herokuapp.com/swaprequest/trigger";
                 request.post(url, {}, function(err, result, body){
                     if (err) {
                         console.log(err);
