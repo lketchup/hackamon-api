@@ -90,7 +90,7 @@ var units = [
         title: "Intelligent Systems",
         code: "FIT3080",
         classes: ["3080-Lec-01", "3080-Lab-01", "3080-Lab-02", "3080-Lab-03"],
-        required: ["Lecture P1"]
+        required: ["Lecture P1", "Laboratory P1"]
     }
 
 ];
