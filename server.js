@@ -40,7 +40,7 @@ require('./app/db/seed')(app);
 
 // Server
 app.listen(process.env.PORT);
-//app.listen(3000);
+//app.listen(3000); // pats bad 
 console.log('Server running on port 3000...');
 
 
