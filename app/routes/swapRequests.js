@@ -139,7 +139,7 @@ module.exports = function(app) {
                 res.status(400).json({error:"bad things happened ln:139"});
             } else {
                 console.log("Added request"); // + data);
-                // trigger swaps, remeber to change to heroku link
+                // trigger swaps 
                 var url = "https://reallocateplus.herokuapp.com/swaprequest/trigger";
                 request.post(url, {}, function(err, result, body){
                     if (err) {
