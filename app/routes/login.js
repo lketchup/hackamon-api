@@ -21,7 +21,7 @@ module.exports = function(app) {
                 // res.status(400).json({error: "Invalid student credentials"}); // note: don't need to return
                 // these both are the same 
                 res.status(400);
-                return res.json({err:"stuff"});
+                return res.json({error:"Invalid students credentials"});
             }
            
         })
