@@ -39,7 +39,7 @@ require('./app/routes/swapRequests')(app);
 require('./app/db/seed')(app);
 
 // Server
-app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT);
 //app.listen(3000);
 console.log('Server running on port 3000...');
 
