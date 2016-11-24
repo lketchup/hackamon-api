@@ -140,7 +140,7 @@ module.exports = function(app) {
             } else {
                 console.log("Added request"); // + data);
                 // trigger swaps
-                var url = "http://localhost:3000/swaprequest/trigger";
+                var url = "https://reallocateplus.herokuapp.com/swaprequest/trigger";
                 request.post(url, {}, function(err, result, body){
                     if (err) {
                         console.log(err);
