@@ -11,6 +11,7 @@ var mongoose = require('mongoose');
 var username = process.env.MONGO_USER
 var password = process.env.MONGO_PASS
 
+
 mongoose.connect('mongodb://'+username+':'+password+'@ds061365.mlab.com:61365/rapdb');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -46,4 +47,10 @@ console.log('Server running on port 3000...');
 
 app.get('/', function(req, res) {
     res.json({"ReAllocatePlus":"API"})
+});
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
 });

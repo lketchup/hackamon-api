@@ -18,13 +18,19 @@ module.exports = function(app) {
     // Return Student with uuid
     app.get('/students/:uuid', function(req, res) {
         var uuid = req.params.uuid;
+        console.log("params uuid: " + uuid)
         Student.findOne({"uuid": uuid}, function(err, data) {
             if (err) {
               console.log(err);
               res.status(400);
               return res.json({});
             }
-            res.json(data);
+            if (data instanceof Student){
+                res.json(data);
+            } else {
+                res.status(400);
+                return res.json({});
+            }
         })
     });
 
