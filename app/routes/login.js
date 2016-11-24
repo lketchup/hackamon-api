@@ -19,7 +19,7 @@ module.exports = function(app) {
             } else {
                 console.log("unsuccessful login");
                 // res.status(400).json({error: "Invalid student credentials"}); // note: don't need to return
-                // these both are the same 
+                // these both same
                 res.status(400);
                 return res.json({error:"Invalid students credentials"});
             }
