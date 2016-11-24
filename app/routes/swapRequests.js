@@ -99,7 +99,8 @@ module.exports = function(app) {
         }
     });
 
-
+    
+    // Buggy, postman call works, front end call doesnt 
     // Enqueue a new swap request
     app.post('/swaprequest/new', function(req, res){
         res.header("Access-Control-Allow-Origin", "*");
@@ -135,6 +136,7 @@ module.exports = function(app) {
         SwapRequest.create(swapRequest, function(err, data) {
             if (err) {
                 console.log("Problem adding SwapRequest: "  + err);
+                res.status(400).json({error:"bad things happened ln:139"});
             } else {
                 console.log("Added request"); // + data);
                 // trigger swaps
@@ -142,14 +144,12 @@ module.exports = function(app) {
                 request.post(url, {}, function(err, result, body){
                     if (err) {
                         console.log(err);
-                        res.status(401);
-                        return res.json({})
+                        res.status(400).json({err:"bad things happened ln:147"});
                     } else {
                         console.log("END HERE");
                         //console.log(res)
-                        console.log("BODEH: " + body)
-                        res.status(200);
-                        return res.json(data)
+                        console.log("BODEH: " + body);
+                        res.status(200).json(data);         // note: don't need to return 
                     }
                 });
 
