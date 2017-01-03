@@ -471,8 +471,8 @@ var swapRequests = [
         studUuid: "20029392",     // Jojo, should be swapped first due to timestamp [x]
         unitUuid: "FIT3088",
         currentClassUuid: "3088-Lab-02",
-        requestedClasses: ["3088-Lab-01"],
-        date: "Wed 16 Nov 2016",
+        requestedClassUuids: ["3088-Lab-01"],
+        dateCreated: "Wed 16 Nov 2016",
         serviced: false
     }
     */

@@ -5,6 +5,8 @@ var SwapRequest = require('../models/swapRequest');
 var uuid = require('uuid');
 var mailer = require('../utils/mailer');
 var request = require('request');
+var errorHandler = require('../errorHandler');
+var refreshSwaps = require('../logic/refreshSwaps');
 
 
 module.exports = function(app) {
@@ -74,31 +76,6 @@ module.exports = function(app) {
             }
         })
     });
-
-
-
-    app.get('/swaprequest', function(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
-
-        var params = req.query;
-        if (params.studUuid) {
-            SwapRequest.find({"studUuid" : params.studUuid}, function(err, data) {
-                if (err) {
-                    res.status(401);
-                    return res.json({})
-                } else {
-                    return res.json(data);
-                }
-            });
-        } else {
-            SwapRequest.find({}, function(err, data) {
-                return res.json(data);
-            })
-        }
-    });
-
     
     // Buggy, postman call works, front end call doesnt 
     // Enqueue a new swap request
@@ -112,47 +89,31 @@ module.exports = function(app) {
 
         var studentUuid = jsonData.studentUuid;            // need
         var unitUuid = jsonData.unitUuid;                   // need
-        var requestedClasses = [jsonData.requestedClasses];  // need 
-        console.log("Request Classes: " + requestedClasses);
-        var timestamp = Date.now();
-        var date = Date(Date.now()).toLocaleString();
-        var reqUuid = uuid.v4();                           // random uuid
-        var currentClass = jsonData.currentClassUuid;
-        
-
-        var swapRequest = {
-            uuid: reqUuid,
-            timestamp: timestamp,
-            studUuid: studentUuid,
-            unitUuid: unitUuid,
-            currentClassUuid: currentClass,
-            requestedClasses: requestedClasses,
-            date: date,
-            serviced: false
-        };
-
-        console.log(swapRequest);
-        // Add the new swap request to MongoDb
-        SwapRequest.create(swapRequest, function(err, data) {
-            if (err) {
+        var requestedClassesUuids = [jsonData.requestedClassUuids];  // need
+        console.log("Request Classes: " + requestedClassesUuids);
+        var currentClassUuid = jsonData.currentClassUuid;
+        registerNewRequest(studentUuid, unitUuid, currentClassUuid, requestedClassesUuids, {
+            onErrorListener: function(err, data) {
                 console.log("Problem adding SwapRequest: "  + err);
-                res.status(400).json({error:"bad things happened ln:139"});
-            } else {
+                res.status(400);
+                res.json(errorHandler.createErrorJson(err));
+            },
+            onFinishedListener: function(data) {
                 console.log("Added request"); // + data);
-                // trigger swaps 
-                var url = "https://reallocateplus.herokuapp.com/swaprequest/trigger";
-                request.post(url, {}, function(err, result, body){
-                    if (err) {
+                // trigger swaps
+                refreshSwaps({
+                    onErrorListener: function (err, data) {
                         console.log(err);
-                        res.status(400).json({err:"bad things happened ln:147"});
-                    } else {
+                        res.status(400);
+                        res.json(errorHandler.createErrorJson("bad things happened"));
+                    },
+                    onFinishedListener: function(data) {
                         console.log("END HERE");
                         //console.log(res)
-                        console.log("BODEH: " + body);
-                        res.status(200).json(data);         // note: don't need to return 
+                        console.log("BODEH: " + data);
+                        res.status(200).json(data);         // note: don't need to return
                     }
                 });
-
             }
         });
     });
@@ -362,7 +323,7 @@ module.exports = function(app) {
         //console.log("a stu who made req: " + allSwapRequests[1].studUuid);
 
 
-        var potentialClasses = swapRequest.requestedClasses;
+        var potentialClasses = swapRequest.requestedClassUuids;
         potentialClasses.forEach(function(classUuid){               // iterate over all classes the student wants to be swapped into
             console.log("try swap");
             console.log("instance array: " + (classUuid instanceof Array))
@@ -406,14 +367,14 @@ module.exports = function(app) {
                                 && (swapRequest.serviced === false)
                                 && (allSwapRequests[j].serviced === false) ) {
 
-                                //&& ( allSwapRequests[j].requestedClasses.indexOf(requestedClass[0].uuid) >= 0) ) {     // class uuid is in the requestedClasses of the other student
+                                //&& ( allSwapRequests[j].requestedClassUuids.indexOf(requestedClass[0].uuid) >= 0) ) {     // class uuid is in the requestedClassUuids of the other student
                                 // check if in array
 
                                 var found = false;
-                                for (var k = 0; k < allSwapRequests[j].requestedClasses.length; k++) {
-                                    console.log("all req one: " + allSwapRequests[j].requestedClasses[k])
+                                for (var k = 0; k < allSwapRequests[j].requestedClassUuids.length; k++) {
+                                    console.log("all req one: " + allSwapRequests[j].requestedClassUuids[k])
                                     console.log("req classs uuid: " + requestedClass[0].uuid)
-                                    if (allSwapRequests[j].requestedClasses[k] === swapRequest.currentClassUuid) {
+                                    if (allSwapRequests[j].requestedClassUuids[k] === swapRequest.currentClassUuid) {
                                         found = true;
                                     }
                                 }
@@ -449,7 +410,7 @@ module.exports = function(app) {
                console.log(err);
                return {};
            } else {
-               
+
                // logic over data (array of requests) here
                swapRequestArray.forEach(function(swapRequest){  // loop over all requests
                    if (swapRequest.serviced === false) {
