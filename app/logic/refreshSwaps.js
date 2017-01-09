@@ -1,8 +1,8 @@
 const SwapRequest = require('../routes/swapRequests.js');
-
+const trySwap = require('../logic/trySwap.js');
 function refreshSwaps(options) {
     const errorListener = options.onErrorListener;
-    const finishListerner = options.onFinishedListener;
+    const finishListener = options.onFinishedListener;
     SwapRequest.find({}, function(err, swapRequestArray){
         if (err){
             console.log(err);
@@ -21,7 +21,7 @@ function refreshSwaps(options) {
                 }
             });
             console.log("Finish checking swap requests");
-            finishListerner(swapRequestArray);
+            finishListener(swapRequestArray);
         }
     }).sort({timestamp: 1})
 }

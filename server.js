@@ -36,13 +36,8 @@ db.once('open', function() {
 */
 
 // Routes
-require('./app/routes/login')(app);
-require('./app/routes/students')(app);
-require('./app/routes/classes')(app);
-require('./app/routes/units')(app);
 require('./app/routes/swapRequests')(app);
 // Test Data
-require('./app/db/seed')(app);
 
 // Server
 app.listen(process.env.PORT);
